@@ -10,7 +10,8 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import { Provider } from 'react-redux';
-import firebase from 'firebase';
+import firebase from '@firebase/app'
+import '@firebase/auth'
 import { createStackNavigator, createAppContainer, createSwitchNavigator} from "react-navigation";
 import reducers from './src/reducers';
 import MainScreen from './src/screen/MainScreen';
@@ -43,7 +44,7 @@ const AppContainer = createAppContainer(createSwitchNavigator(
       Auth: AuthenNavigator
   },
   {
-      initialRouteName: 'Auth',
+      initialRouteName: 'App',
   }
   ));
 

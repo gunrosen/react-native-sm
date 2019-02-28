@@ -9,14 +9,20 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import MapView from 'react-native-maps';
 
 type Props = {};
 export default class Home extends Component<Props> {
   render() {
     return (
-      <View style={styles.container}>
-            <Text>Home Screen</Text>
-      </View>
+      <MapView style={{flex:1}}
+        initialRegion={{  
+          latitude: 21.030756,
+          longitude: 105.781736,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      />
     );
   }
 }
