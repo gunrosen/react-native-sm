@@ -11,10 +11,11 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import { Provider } from 'react-redux';
 import firebase from 'firebase';
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import { createStackNavigator, createAppContainer, createSwitchNavigator} from "react-navigation";
 import reducers from './src/reducers';
 import MainScreen from './src/screen/MainScreen';
 import Login from './src/screen/Login';
+import SignUp from './src/screen/SignUp';
 import store from "./src/store";
 
 const MainNavigator = createStackNavigator(
@@ -23,16 +24,30 @@ const MainNavigator = createStackNavigator(
     Login: { screen: Login },
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'Main',
     headerMode : 'none',
-    navigationOptions: ({ navigation }) => ({
-      headerTitleStyle: { fontWeight: "500" }
-    })
   }
 );
+const AuthenNavigator = createStackNavigator({
+        Login: { screen: Login },
+        SignUp: {screen: SignUp}
+    },
+    {
+      initialRouteName: 'Login',
+      headerMode : 'none',
+    }
+    );
+const AppContainer = createAppContainer(createSwitchNavigator(
+  {
+      App: MainNavigator,
+      Auth: AuthenNavigator
+  },
+  {
+      initialRouteName: 'Auth',
+  }
+  ));
 
-
-class App extends Component {
+export default class App extends Component {
 
   componentWillMount(){
     firebase.initializeApp( {
@@ -57,7 +72,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-          <Login/>
+          <AppContainer/>
       </Provider>
     );
   }
@@ -74,4 +89,3 @@ const styles = StyleSheet.create({
   },
 
 });
-export default App;

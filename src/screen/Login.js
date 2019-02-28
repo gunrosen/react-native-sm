@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, AsyncStorage } from 'react-native';
 
-import firebase from 'firebase';
 import {Card, CardSection, Button, Input, Spinner} from '../components/common';
 import { connect } from 'react-redux';
 import { loginFirebase } from '../actions';
@@ -21,7 +20,7 @@ class Login extends Component {
             let { user, error } = props;
             this.setState({isLoading: false});
             if (user) {
-
+                this.props.navigation.navigate('Main');
             }
             if(error){
               this.setState({error:error.message});
@@ -56,7 +55,7 @@ class Login extends Component {
         return (
           <View style={{flex:1, alignItems: 'stretch'}}>
               <View>
-                    <Image style={styles.imageStyle} source={require('../img/logo.png')}/>
+                    <Image style={styles.imageStyle} source={require('../resources/logo.png')}/>
               </View>
               <Card style={styles.cardStyle}>
                   <CardSection>
