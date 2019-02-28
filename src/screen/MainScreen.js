@@ -10,22 +10,51 @@ import Notification from './Notification';
 import colors from '../resources/colors';
 
 const AppNavigator = createBottomTabNavigator({
-        Home: {  screen: Home  },
-        History: {  screen: History },
-        Notification: {  screen: Notification },
-        Account: {  screen: Account },
+        Home: {
+          screen: Home,
+          navigationOptions: () => ({
+              tabBarIcon: ({tintColor}) => (
+                    <Ionicons  name='ios-home' size={25} color={tintColor} />
+              )
+          })
+        },
+        History: {
+          screen: History ,
+          navigationOptions: () => ({
+              tabBarIcon: ({tintColor}) => (
+                    <Ionicons  name='ios-list-box' size={25}  color={tintColor}  />
+              )
+          })
+        },
+        Notification: {
+          screen: Notification,
+          navigationOptions: () => ({
+              tabBarIcon: ({tintColor}) => (
+                    <Ionicons  name='ios-notifications' size={25}  color={tintColor}  />
+              )
+          })
+         },
+        Account: {
+          screen: Account,
+          navigationOptions: () => ({
+              tabBarIcon: ({tintColor}) => (
+                    <Ionicons  name='ios-person' size={25}  color={tintColor} />
+              )
+          })
+         },
     },
   {
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
-          return <Ionicons  name='ios-airplane' size={25} color={colors.primaryColor} />
+          return <Ionicons  name='ios-airplane' size={25} />
       }
 
     }),
     tabBarOptions: {
-      activeTintColor: colors.colorPrimary,
+      activeTintColor: 'red',
       inactiveTintColor: 'gray',
     },
+    initialRouteName: 'Home'
   });
 
 const AppContainer = createAppContainer(AppNavigator);
