@@ -51,10 +51,10 @@ const AppNavigator = createBottomTabNavigator({
 
     }),
     tabBarOptions: {
-      activeTintColor: 'red',
+      activeTintColor: colors.primaryColor,
       inactiveTintColor: 'gray',
     },
-    initialRouteName: 'Home'
+    initialRouteName: 'History'
   });
 
 const AppContainer = createAppContainer(AppNavigator);

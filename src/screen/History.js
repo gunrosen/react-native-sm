@@ -8,35 +8,83 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, FlatList} from 'react-native';
+import { SearchBar, ListItem  } from 'react-native-elements';
+import { requestGetId } from '../actions';
+import { connect } from 'react-redux';
 
 
 type Props = {};
-export default class History extends Component<Props> {
+class History extends Component<Props> {
+  constructor(props){
+      super(props);
+      this.state = {
+        isLoading: false,
+        dataSource : [
+          {
+            name: 'Amy Farha',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+            subtitle: 'Vice President'
+          },
+          {
+            name: 'Chris Jackson',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+            subtitle: 'Vice Chairman'
+          },
+        ]
+      };
+  }
+
+  componentDidMount(){
+      this.props.requestGetId();
+  }
+
   render() {
     return (
       <View style={styles.container}>
-            <Text>History Screen</Text>
+           <SearchBar
+               containerStyle={styles.searchBar}
+               inputContainerStyle={{backgroundColor:'lightgray'}}
+               inputStyle={{color:'black'}}
+               placeholder="Find foods, drinks, location"/>
+
+            <FlatList
+              keyExtractor={this.keyExtractor}
+              data={this.state.dataSource}
+              renderItem={this.renderItem}
+            />
       </View>
     );
-  }
+  };
+  keyExtractor = (item, index) => ''+index
+
+renderItem = ({ item }) => {
+  return (
+  <ListItem
+    title={item.name}
+    subtitle={item.subtitle}
+    leftAvatar={{
+      source: item.avatar_url && { uri: item.avatar_url },
+      title: item.name[0]
+    }}
+  />
+  )
+}
+
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems:'stretch',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  searchBar:{
+      alignSelf:'stretch',
+      backgroundColor:'white',
+      borderBottomColor: '#D0D0D0',
+      borderTopColor: '#D0D0D0',
+  }
 });
+export default connect(mapStateToProps, { requestGetId } )(History);
