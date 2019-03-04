@@ -8,9 +8,10 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, FlatList} from 'react-native';
-import { SearchBar, ListItem  } from 'react-native-elements';
-import { requestGetId } from '../actions';
+import {Platform, StyleSheet, Text, View, FlatList, Image } from 'react-native';
+import { SearchBar, ListItem, Card, Icon, Button  } from 'react-native-elements';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { getDeliveryIdThenInfo } from '../actions';
 import { connect } from 'react-redux';
 
 
@@ -20,23 +21,17 @@ class History extends Component<Props> {
       super(props);
       this.state = {
         isLoading: false,
-        dataSource : [
-          {
-            name: 'Amy Farha',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-            subtitle: 'Vice President'
-          },
-          {
-            name: 'Chris Jackson',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-            subtitle: 'Vice Chairman'
-          },
-        ]
+        dataSource : []
       };
   }
 
-  componentDidMount(){
-      this.props.requestGetId();
+  componentDidMount() {
+      this.props.getDeliveryIdThenInfo();
+  }
+
+  componentWillReceiveProps(props) {
+        let { lstId, lstDelivery, error } = props;
+        this.setState({dataSource:lstDelivery});
   }
 
   render() {
@@ -52,6 +47,9 @@ class History extends Component<Props> {
               keyExtractor={this.keyExtractor}
               data={this.state.dataSource}
               renderItem={this.renderItem}
+               horizontal={false}
+              numColumns={2}
+              style={{marginTop:4, marginBottom:4}}
             />
       </View>
     );
@@ -60,17 +58,31 @@ class History extends Component<Props> {
 
 renderItem = ({ item }) => {
   return (
-  <ListItem
-    title={item.name}
-    subtitle={item.subtitle}
-    leftAvatar={{
-      source: item.avatar_url && { uri: item.avatar_url },
-      title: item.name[0]
-    }}
-  />
+    <View style={{ flex: 1, flexDirection: 'column', margin: 1,margin:2 }}>
+        <Card containerStyle={{margin: 4}}
+        imageWrapperStyle={{margin:0}}
+        image={{uri:item.photos[10].value}}
+      >
+
+            <View style={{marginTop:0}}>
+                <Text style={{ fontWeight: 'bold', fontSize: 14}}  numberOfLines={1} ellipsizeMode='tail'>{item.name}</Text>
+                <Text style={{ fontSize: 16, color:'#BDBDBD'}} numberOfLines={2}  ellipsizeMode='tail'>{item.address}</Text>
+                <View style={{ flex:1, flexDirection:'row', justifyContent:'flex-start'}}>
+                      <Ionicons  name='ios-pricetag' size={16}  color='red'  margin={5}/>
+                      <Text style={{ color: '#239839', marginLeft:10 }} title={item.promotion_title}>{item.promotion_title}</Text>
+                </View>
+            </View>
+        </Card>
+  </View>
+
   )
 }
 
+}
+
+mapStateToProps = ({getDelivery}) => {
+    const { lstId, lstDelivery, error } = getDelivery;
+    return { lstId, lstDelivery, error };
 }
 
 const styles = StyleSheet.create({
@@ -87,4 +99,4 @@ const styles = StyleSheet.create({
       borderTopColor: '#D0D0D0',
   }
 });
-export default connect(mapStateToProps, { requestGetId } )(History);
+export default connect(mapStateToProps, { getDeliveryIdThenInfo } )(History);
