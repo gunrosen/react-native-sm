@@ -36,11 +36,23 @@ class Login extends Component {
 
       _onLoginButtonPress(){
           const { email, password } = this.state;
+          if(!this._validateEmail(email)){
+              this.setState({error: 'Email is not correct format', isLoading: false});
+              return;
+          }
+          if(!password){
+              this.setState({error: 'Password is empty', isLoading: false});
+              return;
+          }
           this.setState({error: '', isLoading: true},
-           () => {
-              this.props.loginFirebase({ email, password});
-          });
+           () =>  this.props.loginFirebase({ email, password})
+          );
 
+      }
+
+      _validateEmail = (email) => {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
       }
 
       _renderButton(){

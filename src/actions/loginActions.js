@@ -24,6 +24,10 @@ const loginFail = (dispatch, error) => {
 
 export const loginFirebase = ({email, password}) => {
   return (dispatch) => {
+    debugger;
+    if(!email){
+        return loginFail(dispatch, 'Email is empty');
+    }
     firebase.auth().signInWithEmailAndPassword(email,password)
            .then((user) => loginSuccess(dispatch, user))
            .catch((error) => loginFail(dispatch, error));

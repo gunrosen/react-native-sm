@@ -3,7 +3,8 @@ import {
     HISTORY_SEARCH_ID_SUCCESS,
     HISTORY_SEARCH_ID_FAIL,
     HISTORY_SEARCH_INFO_SUCCESS,
-    HISTORY_SEARCH_INFO_FAIL
+    HISTORY_SEARCH_INFO_FAIL,
+    HISTORY_SEARCH_NO_RESULT
 } from './types';
 import axios from 'axios';
 
@@ -19,42 +20,28 @@ const header = {
 'x-foody-client-type': '1',
 'x-foody-client-version': '3.0.0',
 };
-const getSuccess = (dispatch, result) => {
-  dispatch({
-      type: HISTORY_SEARCH_SUCCESS,
-      payload: result
-  });
-}
 
-const getFail = (dispatch, error) => {
-  dispatch({
-      type: HISTORY_SEARCH_FAILS,
-      payload: error
-  });
-}
-
-const  getDeliveryIds = () => {
+const  getDeliveryIds = (keyword) => {
     return dispatch => {
       const requestConfig = {
         url:'https://gappapi.deliverynow.vn/api/delivery/search_delivery_ids',
         method:'post',
         headers: header,
-        data:{"category_group":1,"city_id":217,"delivery_only":true,"keyword":"","sort_type":8,"foody_services":[1],"combine_categories":[{"code":1,"id":76},{"code":1,"id":5},{"code":1,"id":16},{"code":1,"id":70}]},
+        data:{"category_group":1,"city_id":217,"delivery_only":true,"keyword":keyword,"sort_type":8,"foody_services":[1],"combine_categories":[{"code":1,"id":76},{"code":1,"id":5},{"code":1,"id":16},{"code":1,"id":70}]},
       }
       return   axios.request(requestConfig).then(
+
           response => {
               if (response.data.reply.delivery_ids) {
                       let arrIds = response.data.reply.delivery_ids;
-                      let deliverIds = arrIds.slice(0,10);
                       dispatch({
                           type: HISTORY_SEARCH_ID_SUCCESS,
-                          payload: deliverIds
+                          payload: arrIds
                         }
                       );
               } else {
                     dispatch({
-                      type: HISTORY_SEARCH_ID_SUCCESS,
-                      payload: []
+                      type: HISTORY_SEARCH_NO_RESULT,
                     })
               }
           }).catch(
@@ -69,8 +56,10 @@ const  getDeliveryIds = () => {
     }
 }
 
-const getDeliveryInfo = (lstId) => {
-      return dispatch => {
+export const getDeliveryInfo = () => {
+      return (dispatch, getState) => {
+        const page = getState().getDelivery.page;
+        const lstId = getState().getDelivery.arrIds.slice(page * 10, page * 10 + 10);
         const requestConfig = {
           url:'https://gappapi.deliverynow.vn/api/delivery/get_infos',
           method:'post',
@@ -81,7 +70,8 @@ const getDeliveryInfo = (lstId) => {
             response => {
                       dispatch({
                           type: HISTORY_SEARCH_INFO_SUCCESS,
-                          payload: response.data.reply.delivery_infos
+                          payload: response.data.reply.delivery_infos,
+                          page: page+1
                         })
             }).catch(
                     err => {
@@ -95,11 +85,16 @@ const getDeliveryInfo = (lstId) => {
       }
 }
 
-export const getDeliveryIdThenInfo = () => {
+export const getDeliveryIdThenInfo = (keyword) => {
     return (dispatch, getState) => {
-          return dispatch(getDeliveryIds()).then( () => {
-              const lstId = getState().getDelivery.lstId;
-              return dispatch(getDeliveryInfo(lstId))
+          return dispatch(getDeliveryIds(keyword)).then( () => {
+              const arrIds = getState().getDelivery.arrIds;
+              if(!arrIds || (!Array.isArray(arrIds) && arrIds.length == 0)) {
+                return   dispatch({
+                    type: HISTORY_SEARCH_NO_RESULT,
+                  });
+              }
+             else  return dispatch(getDeliveryInfo());
           })
     }
 
