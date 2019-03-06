@@ -17,7 +17,7 @@ import reducers from './src/reducers';
 import MainScreen from './src/screen/MainScreen';
 import Login from './src/screen/Login';
 import SignUp from './src/screen/SignUp';
-import Order fron './src/screen/Order';
+import Order from './src/screen/Order';
 import store from "./src/store";
 
 const MainNavigator = createStackNavigator(
@@ -26,7 +26,7 @@ const MainNavigator = createStackNavigator(
     Order: { screen: Order },
   },
   {
-    initialRouteName: 'Main',
+    initialRouteName: 'Order',
     headerMode : 'none',
   }
 );

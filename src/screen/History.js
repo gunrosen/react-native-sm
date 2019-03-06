@@ -8,15 +8,14 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, FlatList, Image, Keyboard  } from 'react-native';
+import {Platform, StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Keyboard  } from 'react-native';
 import { SearchBar, ListItem, Card, Icon, Button  } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getDeliveryIdThenInfo, getDeliveryInfo } from '../actions';
 import { connect } from 'react-redux';
 
 
-type Props = {};
-class History extends Component<Props> {
+class History extends Component {
   _isMounted = false;
   constructor(props){
       super(props);
@@ -66,6 +65,10 @@ class History extends Component<Props> {
           );
     } else return null;
   }
+  _onSelectFood = (item) => {
+    console.log('click'+item);
+    this.props.navigation.navigate('Order');
+  }
 
   render() {
     return (
@@ -103,7 +106,8 @@ renderItem = ({ item }) => {
   }
   let promotionTitle = item.promotion_title ? item.promotion_title : "Giảm giá 25%" ;
   return (
-    <View style={{ flex: 1, flexDirection: 'column', margin: 1,margin:2 }}>
+    <TouchableWithoutFeedback onPress={() => this._onSelectFood(item)}>
+    <View style={{ flex: 1, flexDirection: 'column', margin:2 }}>
         <Card containerStyle={{margin: 4}}
         imageWrapperStyle={{margin:0}}
         image={{uri: imageUri}}
@@ -119,7 +123,7 @@ renderItem = ({ item }) => {
             </View>
         </Card>
   </View>
-
+  </TouchableWithoutFeedback>
   )
 }
 
