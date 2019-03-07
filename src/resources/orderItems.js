@@ -1,6 +1,8 @@
 export default orderItem = {
 	"reply": {
-		"menu_infos": [{
+		"menu_infos": 
+		[
+			{
 				"dish_type_id": 478111,
 				"dish_type_name": "Macchiato cream cheese",
 				"dishes": [

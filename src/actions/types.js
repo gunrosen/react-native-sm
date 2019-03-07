@@ -10,3 +10,7 @@ export const HISTORY_SEARCH_ID_FAIL ='history_search_id_fail';
 export const HISTORY_SEARCH_INFO_SUCCESS ='history_search_info_success';
 export const HISTORY_SEARCH_INFO_FAIL ='history_search_info_fail';
 export const HISTORY_SEARCH_NO_RESULT = 'history_search_no_result';
+
+// Order
+export const ORDER_INIT='order_init';
+
