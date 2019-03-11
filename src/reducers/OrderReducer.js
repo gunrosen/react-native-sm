@@ -81,8 +81,10 @@ export default (state = STATE_INIT, action) => {
                 });
                 let purchaseOrder = state.purchaseOrder;
                 if (purchaseOrder.find(item => item.id == action.payload)) {
+                    let needRemove = false;
                     purchaseOrder = purchaseOrder.map( item => {
                             if(item.id == action.payload){
+                                if(item.quantity == 1) needRemove = true;
                                 return {
                                     ...item,
                                     quantity: item.quantity -1,
@@ -90,6 +92,14 @@ export default (state = STATE_INIT, action) => {
                             }
                             return item;
                     });
+                    if(needRemove){
+                        purchaseOrder = purchaseOrder.filter((item) => {
+                                if(item.id == action.payload){
+                                    return false;
+                                }
+                                return true;
+                        })
+                    }
                 }
                 return { ...state, foodList: newFoodList, total, purchaseOrder };
             }

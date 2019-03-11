@@ -54,14 +54,14 @@ class Order extends React.Component {
       if (item.quantity && item.quantity > 0) {
         return (
           <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', paddingLeft: 5, paddingRight: 5 }}>
-            <Ionicons name='ios-remove-circle-outline' size={25} color='#a8273b' onPress={this._onRemoveFoodClick(item.id)} />
+            <Ionicons name='ios-remove-circle-outline' size={25} color='#a8273b' onPress={this._onRemoveFoodClick(item.id)} style={{ paddingBottom:30, paddingTop:30, paddingLeft:5, paddingRight:5}} />
             <TextInput style={{ width: 30, height: 40, borderColor: 'gray', borderWidth: 1 }} defaultValue='0' value={item.quantity + ''} placeholder='1' editable={false} />
-            <Ionicons name='ios-add-circle' size={25} color='#4974a1' onPress={this._onAddFoodClick(item.id)} />
+            <Ionicons name='ios-add-circle' size={25} color='#4974a1' onPress={this._onAddFoodClick(item.id)} style={{ paddingBottom:30, paddingTop:30, paddingLeft:5, paddingRight:5}} />
           </View>
         );
       } else return (
         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', paddingLeft: 5, paddingRight: 5 }}>
-          <Ionicons name='ios-add-circle' size={25} color='#4974a1' onPress={this._onAddFoodClick(item.id)} />
+          <Ionicons name='ios-add-circle' size={25} color='#4974a1' onPress={this._onAddFoodClick(item.id)} style={{ paddingBottom:30, paddingTop:30, paddingLeft:5, paddingRight:5}}  />
         </View>
       );
     } catch (err) {
@@ -145,9 +145,9 @@ class Order extends React.Component {
           onDragStart={() =>  this.setState({ showBackdrop: true })}
           onDragEnd={() => console.log('onDragEnd')}
         >
-
+             {dragHandler => (
           <View style={styles.panel}>
-            <View style={styles.panelHeader}>
+            <View style={styles.panelHeader} {...dragHandler}>
               <View style={{ flex: 1, marginLeft: 5, flexDirection: 'row' }}>
                 <Ionicons name='ios-basket' size={25} color='white' />
                 <Text style={{ color: '#FFF', marginLeft: 10, fontWeight: 'bold', fontSize: 15 }}>{this.props.total.toLocaleString('vn')}</Text>
@@ -172,7 +172,7 @@ class Order extends React.Component {
                   ({ item }) => {
                     return (
                       <View style={{ margin: 5, flexDirection: 'row' }}>
-                        <View style={{flex:2.5}}>
+                        <View style={{flex:2.5, alignItems:'flex-start', justifyContent:'center'}} >
                           <Text style={{ color: 'black', fontWeight: 'bold', marginTop: 5 }} ellipsizeMode='tail' numberOfLines={1}>{item.info.name}</Text>
                           <Text style={{ color: '#525252', marginTop: 5, marginBottom: 5 }} ellipsizeMode='tail' numberOfLines={1}>{item.info.price + ' x ' + item.quantity}</Text>
                         </View>
@@ -184,6 +184,7 @@ class Order extends React.Component {
               />
             </View>
           </View>
+           )}
         </SlidingUpPanel>
       </View>
     )
@@ -227,6 +228,7 @@ const styles = {
 }
 mapStateToProps = ({ order }) => {
   const { foodList, purchaseOrder, total } = order;
+  console.log(purchaseOrder.length);
   return { foodList, purchaseOrder, total };
 }
 export default connect(mapStateToProps, { getProductList, addFood, removeFood })(Order);
