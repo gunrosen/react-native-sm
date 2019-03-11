@@ -66,8 +66,11 @@ class History extends Component {
     } else return null;
   }
   _onSelectFood = (item) => {
-    console.log('click'+item);
-    this.props.navigation.navigate('Order');
+    this.props.navigation.navigate('Order',{
+      name: item.name,
+      address: item.address,
+      photo: item.photo
+    });
   }
 
   render() {
@@ -104,6 +107,7 @@ renderItem = ({ item }) => {
   if(item.photos || item.photos[10]){
       imageUri = item.photos[10].value;
   }
+  item.photo = imageUri;
   let promotionTitle = item.promotion_title ? item.promotion_title : "Giảm giá 25%" ;
   return (
     <TouchableWithoutFeedback onPress={() => this._onSelectFood(item)}>

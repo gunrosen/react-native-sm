@@ -26,7 +26,7 @@ const MainNavigator = createStackNavigator(
     Order: { screen: Order },
   },
   {
-    initialRouteName: 'Order',
+    initialRouteName: 'Main',
     headerMode : 'none',
   }
 );
