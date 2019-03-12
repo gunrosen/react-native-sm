@@ -54,7 +54,7 @@ const AppNavigator = createBottomTabNavigator({
       activeTintColor: colors.primaryColor,
       inactiveTintColor: 'gray',
     },
-    initialRouteName: 'History'
+    initialRouteName: 'Home'
   });
 
 const AppContainer = createAppContainer(AppNavigator);

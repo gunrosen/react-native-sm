@@ -13,14 +13,14 @@ class Order extends React.Component {
   static defaultProps = {
     draggableRange: {
       top: height / 1.75,
-      bottom: 60
+      bottom: 80
     }
   }
   _draggedValue = new Animated.Value(80)
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = {showBackdrop : false};
+    this.state = { showBackdrop: false };
   }
   componentDidMount() {
     this._isMounted = true;
@@ -54,14 +54,14 @@ class Order extends React.Component {
       if (item.quantity && item.quantity > 0) {
         return (
           <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', paddingLeft: 5, paddingRight: 5 }}>
-            <Ionicons name='ios-remove-circle-outline' size={25} color='#a8273b' onPress={this._onRemoveFoodClick(item.id)} style={{ paddingBottom:30, paddingTop:30, paddingLeft:5, paddingRight:5}} />
-            <TextInput style={{ width: 30, height: 40, borderColor: 'gray', borderWidth: 1 }} defaultValue='0' value={item.quantity + ''} placeholder='1' editable={false} />
-            <Ionicons name='ios-add-circle' size={25} color='#4974a1' onPress={this._onAddFoodClick(item.id)} style={{ paddingBottom:30, paddingTop:30, paddingLeft:5, paddingRight:5}} />
+            <Ionicons name='ios-remove-circle-outline' size={25} color='#a8273b' onPress={this._onRemoveFoodClick(item.id)} style={{ paddingBottom: 20, paddingTop: 20, paddingLeft: 5, paddingRight: 5 }} />
+            <TextInput style={{ width: 30, height: 40, borderColor: 'gray', borderWidth: 1, color: 'black' }} defaultValue='0' value={item.quantity + ''} placeholder='1' editable={false} />
+            <Ionicons name='ios-add-circle' size={25} color='#4974a1' onPress={this._onAddFoodClick(item.id)} style={{ paddingBottom: 20, paddingTop: 20, paddingLeft: 5, paddingRight: 5 }} />
           </View>
         );
       } else return (
         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', paddingLeft: 5, paddingRight: 5 }}>
-          <Ionicons name='ios-add-circle' size={25} color='#4974a1' onPress={this._onAddFoodClick(item.id)} style={{ paddingBottom:30, paddingTop:30, paddingLeft:5, paddingRight:5}}  />
+          <Ionicons name='ios-add-circle' size={25} color='#4974a1' onPress={this._onAddFoodClick(item.id)} style={{ paddingBottom: 20, paddingTop: 20, paddingLeft: 5, paddingRight: 5 }} />
         </View>
       );
     } catch (err) {
@@ -71,8 +71,8 @@ class Order extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const shopName = navigation.getParam('name','Hoa la canh');
-    const shopAddress = navigation.getParam('address','01 Duong Hung Vuong, Ha Noi');
+    const shopName = navigation.getParam('name', 'Hoa la canh');
+    const shopAddress = navigation.getParam('address', '01 Duong Hung Vuong, Ha Noi');
     const shopPhoto = navigation.getParam('photo');
 
     const { top, bottom } = this.props.draggableRange
@@ -82,8 +82,6 @@ class Order extends React.Component {
       outputRange: [0, 1],
       extrapolate: 'clamp'
     })
-
-    const transform = [{ scale: draggedValue }]
 
     return (
       <View style={styles.container}>
@@ -126,8 +124,8 @@ class Order extends React.Component {
                   position: 'relative',
                 }}
                 imageSrc={{ uri: shopPhoto }}
-                textHeader= {shopName}
-                textDetail= {shopAddress}
+                textHeader={shopName}
+                textDetail={shopAddress}
               />
             )
             else return <Text style={styles.sectionTextStyle}>
@@ -142,49 +140,49 @@ class Order extends React.Component {
           ref={c => (this._panel = c)}
           draggableRange={this.props.draggableRange}
           animatedValue={this._draggedValue}
-          onDragStart={() =>  this.setState({ showBackdrop: true })}
-          onDragEnd={() => console.log('onDragEnd')}
-        >
-             {dragHandler => (
-          <View style={styles.panel}>
-            <View style={styles.panelHeader} {...dragHandler}>
-              <View style={{ flex: 1, marginLeft: 5, flexDirection: 'row' }}>
-                <Ionicons name='ios-basket' size={25} color='white' />
-                <Text style={{ color: '#FFF', marginLeft: 10, fontWeight: 'bold', fontSize: 15 }}>{this.props.total.toLocaleString('vn')}</Text>
-              </View>
-              <View style={{ backgroundColor: '#0b88fc', alignSelf: 'stretch', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ color: 'white', paddingLeft: 10, fontSize: 15, fontWeight: 'bold' }}>Đặt hàng</Text>
-                <Ionicons name='ios-arrow-round-forward' size={25} color='#fff' style={{ marginLeft: 10, paddingRight: 10 }} />
+          onDragStart={() => this.setState({ showBackdrop: true })}>
+          {dragHandler => (
+            <View style={styles.panel}>
+              <View style={styles.panelHeader} {...dragHandler}>
+                <View style={{ flex: 1, marginLeft: 5, flexDirection: 'row' }}>
+                  <Ionicons name='ios-basket' size={25} color='white' />
+                  <Text style={{ color: '#FFF', marginLeft: 10, fontWeight: 'bold', fontSize: 15 }}>{this.props.total.toLocaleString('vn')}</Text>
+                </View>
+                <View style={{ backgroundColor: '#0b88fc', alignSelf: 'stretch', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                  <Text style={{ color: 'white', paddingLeft: 10, fontSize: 15, fontWeight: 'bold' }}>Đặt hàng</Text>
+                  <Ionicons name='ios-arrow-round-forward' size={25} color='#fff' style={{ marginLeft: 10, paddingRight: 10 }} />
+                </View>
               </View>
 
-            </View>
+              <View style={styles.panelContent}>
 
-            <View style={styles.panelContent}>
-              <FlatList
-                style={{ flex: 1, alignSelf: 'stretch' }}
-                ItemSeparatorComponent={this.renderSeparator}
-                keyExtractor={(item, index) => index + ''}
-                nestedScrollEnabled={true}
-                onScrollBeginDrag={() => console.log('onScrollBeginDrag')}
-                onScrollEndDrag={() => console.log('onScrollEndDrag')}
-                data={this.props.purchaseOrder}
-                renderItem={
-                  ({ item }) => {
-                    return (
-                      <View style={{ margin: 5, flexDirection: 'row' }}>
-                        <View style={{flex:2.5, alignItems:'flex-start', justifyContent:'center'}} >
-                          <Text style={{ color: 'black', fontWeight: 'bold', marginTop: 5 }} ellipsizeMode='tail' numberOfLines={1}>{item.info.name}</Text>
-                          <Text style={{ color: '#525252', marginTop: 5, marginBottom: 5 }} ellipsizeMode='tail' numberOfLines={1}>{item.info.price + ' x ' + item.quantity}</Text>
+                <FlatList
+                  style={{flex: 0, borderColor:'red',borderWidth:5}}
+                  ItemSeparatorComponent={this.renderSeparator}
+                  keyExtractor={(item, index) => item.id + '' + index + ''}
+                  nestedScrollEnabled={true}
+                  data={this.props.purchaseOrder}
+                  renderItem={
+                    ({ item }) => {
+                      console.log(this.props.purchaseOrder.length);
+                      console.log("Render" + item.info.name);
+                      return (
+                        <View style={{ marginLeft: 5, flexDirection: 'row' }}>
+                          <View style={{ flex: 2.5, alignItems: 'flex-start', justifyContent: 'center' }} >
+                            <Text style={{ color: 'black', fontWeight: 'bold', marginTop: 5 }} ellipsizeMode='tail' numberOfLines={1}>{item.info.name}</Text>
+                            <Text style={{ color: '#525252', marginTop: 0, marginBottom: 5 }} ellipsizeMode='tail' numberOfLines={1}>{item.info.price + ' x ' + item.quantity}</Text>
+                          </View>
+                          {this._renderRemoveAndValuePO(item)}
                         </View>
-                        {this._renderRemoveAndValuePO(item)}
-                      </View>
-                    );
+                      );
+                    }
                   }
-                }
-              />
+                />
+
+              </View>
+
             </View>
-          </View>
-           )}
+          )}
         </SlidingUpPanel>
       </View>
     )
@@ -198,7 +196,6 @@ const styles = {
   },
   panel: {
     flex: 1,
-    position: 'relative',
   },
   panelHeader: {
     height: 60,
@@ -208,9 +205,13 @@ const styles = {
   },
   panelContent: {
     flex: 1,
+    zIndex: 1,
     backgroundColor: '#fff',
     alignItems: 'stretch',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderColor:'blue',
+    borderWidth:3,
+
   },
   sectionTextStyle: {
     fontSize: 16,
@@ -228,7 +229,6 @@ const styles = {
 }
 mapStateToProps = ({ order }) => {
   const { foodList, purchaseOrder, total } = order;
-  console.log(purchaseOrder.length);
   return { foodList, purchaseOrder, total };
 }
 export default connect(mapStateToProps, { getProductList, addFood, removeFood })(Order);
