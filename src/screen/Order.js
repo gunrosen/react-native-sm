@@ -157,7 +157,7 @@ class Order extends React.Component {
               <View style={styles.panelContent}>
 
                 <FlatList
-                  style={{flex: 0, borderColor:'red',borderWidth:5}}
+                  contentContainerStyle={{ flexGrow: 1 }}
                   ItemSeparatorComponent={this.renderSeparator}
                   keyExtractor={(item, index) => item.id + '' + index + ''}
                   nestedScrollEnabled={true}
@@ -195,7 +195,7 @@ const styles = {
     justifyContent: 'flex-start'
   },
   panel: {
-    flex: 1,
+    height:'55%'
   },
   panelHeader: {
     height: 60,
@@ -209,9 +209,6 @@ const styles = {
     backgroundColor: '#fff',
     alignItems: 'stretch',
     justifyContent: 'center',
-    borderColor:'blue',
-    borderWidth:3,
-
   },
   sectionTextStyle: {
     fontSize: 16,
