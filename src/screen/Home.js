@@ -8,13 +8,12 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, PermissionsAndroid} from 'react-native';
+import {BackHandler, StyleSheet, Text, View, PermissionsAndroid} from 'react-native';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 
-type Props = {};
-export default class Home extends Component<Props> {
+export default class Home extends Component {
   _isMounted = false;
   constructor(props){
     super(props);
@@ -26,9 +25,16 @@ export default class Home extends Component<Props> {
   componentDidMount() {
         this._isMounted = true;
         this.requestLocationPermission();
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress.bind(this));
   }
   componentWillUnmount() {
         this._isMounted = false;
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress.bind(this));
+  }
+
+  handleBackPress = () => {
+    console.log('GO BACK FROM HOME');
+    return true;
   }
 
   async requestLocationPermission(){

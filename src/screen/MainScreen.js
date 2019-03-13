@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {BackHandler, StyleSheet, Text, View} from 'react-native';
 import { createBottomTabNavigator, createAppContainer } from "react-navigation";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -59,7 +59,20 @@ const AppNavigator = createBottomTabNavigator({
 
 const AppContainer = createAppContainer(AppNavigator);
 
-class MainScreen extends Component<Props> {
+class MainScreen extends Component {
+  componentDidMount(){
+      BackHandler.addEventListener('hardwareBackPress', this.handleBackPress.bind(this));
+  }
+
+  componentWillUnmount(){
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress.bind(this));
+  }
+
+  handleBackPress = () => {
+    console.log('GO BACK');
+    this.goBack(); // works best when the goBack is async
+    return true;
+  }
   render() {
     return (
           <View style={styles.container}>

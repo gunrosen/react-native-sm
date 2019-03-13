@@ -7,16 +7,23 @@
  * @lint-ignore-every XPLATJSCOPYRIGHT1
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { NativeModules, StyleSheet, Text, View, TouchableWithoutFeedback ,ToastAndroid} from 'react-native';
 
 
-type Props = {};
-export default class Account extends Component<Props> {
+export default class Account extends Component {
+  showToast = () => {
+    console.log('Clicked');
+    NativeModules.Toast.show('Awesome work', NativeModules.Toast.SHORT);
+  }
+
   render() {
     return (
       <View style={styles.container}>
-            <Text>Account Screen</Text>
+        <Text>Account Screen</Text>
+        <TouchableWithoutFeedback onPress={this.showToast.bind(this)}>
+          <Text>ClickMe!!</Text>
+        </TouchableWithoutFeedback>
       </View>
     );
   }
