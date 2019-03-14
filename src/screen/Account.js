@@ -8,22 +8,33 @@
  */
 
 import React, { Component } from 'react';
-import { NativeModules, StyleSheet, Text, View, TouchableWithoutFeedback ,ToastAndroid} from 'react-native';
+import { NativeModules, StyleSheet, Text, View, TouchableWithoutFeedback, TouchableHighlight, AsyncStorage } from 'react-native';
 
 
 export default class Account extends Component {
+
   showToast = () => {
     console.log('Clicked');
     NativeModules.Toast.show('Awesome work', NativeModules.Toast.SHORT);
   }
 
+  logOut = () => {
+    AsyncStorage.removeItem('AUTH').then(
+      () => this.props.navigation.navigate('Login'),
+      () => console.log('error')
+    );
+    ;
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>Account Screen</Text>
         <TouchableWithoutFeedback onPress={this.showToast.bind(this)}>
           <Text>ClickMe!!</Text>
         </TouchableWithoutFeedback>
+        <TouchableHighlight onPress={this.logOut.bind(this)}>
+          <Text>LOG OUT</Text>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -35,15 +46,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });

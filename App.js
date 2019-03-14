@@ -8,12 +8,11 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import { StyleSheet} from 'react-native';
 import { Provider } from 'react-redux';
 import firebase from '@firebase/app'
 import '@firebase/auth'
 import { createStackNavigator, createAppContainer, createSwitchNavigator} from "react-navigation";
-import reducers from './src/reducers';
 import MainScreen from './src/screen/MainScreen';
 import Login from './src/screen/Login';
 import SignUp from './src/screen/SignUp';
@@ -45,7 +44,7 @@ const AppContainer = createAppContainer(createSwitchNavigator(
       Auth: AuthenNavigator
   },
   {
-      initialRouteName: 'App',
+      initialRouteName: 'Auth',
   }
   ));
 
@@ -79,8 +78,6 @@ export default class App extends Component {
     );
   }
 }
-
-
 
 const styles = StyleSheet.create({
   container: {

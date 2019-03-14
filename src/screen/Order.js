@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, Dimensions, ScrollView, Animated, SectionList, FlatList, Image, TextInput } from 'react-native'
+import { Text, View, Dimensions, ScrollView, Animated, SectionList, FlatList, Image, TextInput, BackHandler } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { ImageWithCaption, Button } from '../components/common'
@@ -24,10 +24,16 @@ class Order extends React.Component {
   }
   componentDidMount() {
     this._isMounted = true;
+    BackHandler.addEventListener('hardwareBackPress', this._handleBack);
     this.props.getProductList();
   }
   componentWillUnmount() {
     this._isMounted = false;
+    BackHandler.removeEventListener('hardwareBackPress', this._handleBack);
+  }
+
+  _handleBack = () => {
+    this.props.navigation.goBack()
   }
 
   _onAddFoodClick = (id) => {
@@ -195,7 +201,7 @@ const styles = {
     justifyContent: 'flex-start'
   },
   panel: {
-    height:'55%'
+    height: '55%'
   },
   panelHeader: {
     height: 60,
