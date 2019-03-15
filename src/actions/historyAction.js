@@ -89,7 +89,7 @@ export const getDeliveryIdThenInfo = (keyword) => {
     return (dispatch, getState) => {
           return dispatch(getDeliveryIds(keyword)).then( () => {
               const arrIds = getState().getDelivery.arrIds;
-              if(!arrIds || (!Array.isArray(arrIds) && arrIds.length == 0)) {
+              if(!arrIds || (Array.isArray(arrIds) && arrIds.length == 0)) {
                 return   dispatch({
                     type: HISTORY_SEARCH_NO_RESULT,
                   });

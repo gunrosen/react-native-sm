@@ -23,6 +23,7 @@ const MainNavigator = createStackNavigator(
   {
     Main: { screen: MainScreen },
     Order: { screen: Order },
+    SignUp:{screen: SignUp}
   },
   {
     initialRouteName: 'Main',
