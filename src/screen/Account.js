@@ -29,20 +29,12 @@ export default class Account extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* <TouchableWithoutFeedback onPress={this.showToast.bind(this)}>
+        <TouchableWithoutFeedback onPress={this.showToast.bind(this)}>
           <Text>ClickMe!!</Text>
         </TouchableWithoutFeedback>
-        <TouchableHighlight onPress={this.logOut.bind(this)}>
+        <TouchableHighlight style= {{marginTop:10}}onPress={this.logOut.bind(this)}>
           <Text>LOG OUT</Text>
-        </TouchableHighlight> */}
-                <Text>
-          If you like React, you'll also like React Native.
-        </Text>
-        <Text>
-          Instead of 'div' and 'span', you'll use native components
-          like 'View' and 'Text'.
-        </Text>
-
+        </TouchableHighlight>
       </View>
     );
   }
@@ -54,5 +46,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    
   },
 });

@@ -1,16 +1,33 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
+const styles = StyleSheet.create({
+  heading: {
+    fontWeight: 'bold',
+    fontSize: 32,
+  },
+  red: {
+    color: 'red',
+  },
+  blue: {
+    color: 'blue',
+  }
+});
 
-export default class SignUp extends Component {
+export default class SignUp extends React.Component {
   render() {
     return (
-      <View style={{flex:1,justifyContent:'center', alignItems:'center'}}>
-        <Text style={{fontSize:30}}>
-          If you like React, you'll also like React Native.
+      <View>
+        <Text style={styles.heading}>
+          Heading
         </Text>
-        <Text style={{padding:10,fontSize:30}}>
-          Instead of 'div' and 'span', you'll use native components
-          like 'View' and 'Text'.
+        <Text style={styles.red}>
+          Red text
+        </Text>
+        <Text style={styles.blue}>
+          Blue text
+        </Text>
+        <Text style={[styles.heading, styles.red]}>
+          Blue Heading
         </Text>
       </View>
     );
